@@ -27,7 +27,7 @@ jobs:
         uses: github/codeql-action/init@v2  # Uses GitHub's CodeQL initialization action, version 2
         with:
           # Specifies the programming languages to scan; adjust based on your project
-          languages: javascript,php,python  # Example: javascript; add others like php, python if needed (e.g., languages: javascript, php)
+          languages: javascript,PHP,python  # Example: javascript; add others like php, python if needed (e.g., languages: javascript, php)
 
       # Step 3: Autobuild the code (if applicable) to prepare for analysis
       - name: Autobuild
