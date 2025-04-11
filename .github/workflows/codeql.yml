@@ -1,0 +1,40 @@
+# Name of the workflow, displayed in the GitHub Actions tab
+name: CodeQL Analysis
+
+# Defines the events that trigger this workflow
+on:
+  # Trigger the workflow on push events to the main branch
+  push:
+    branches: [main]
+  # Trigger the workflow on pull requests targeting the main branch
+  pull_request:
+    branches: [main]
+
+# Defines the jobs to run as part of this workflow
+jobs:
+  # Job name, can be anything descriptive; here it's "analyze" for CodeQL analysis
+  analyze:
+    # Specifies the runner environment (GitHub-hosted virtual machine)
+    runs-on: ubuntu-latest
+    # List of steps to execute in this job
+    steps:
+      # Step 1: Check out the repository code so the workflow can access it
+      - name: Checkout repository
+        uses: actions/checkout@v3  # Uses GitHub's official checkout action, version 3
+
+      # Step 2: Initialize CodeQL for scanning
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2  # Uses GitHub's CodeQL initialization action, version 2
+        with:
+          # Specifies the programming languages to scan; adjust based on your project
+          languages: javascript,php,python  # Example: javascript; add others like php, python if needed (e.g., languages: javascript, php)
+
+      # Step 3: Autobuild the code (if applicable) to prepare for analysis
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2  # Uses GitHub's autobuild action for CodeQL, version 2
+        # Autobuild attempts to automatically build compiled languages (e.g., Java, C++); for interpreted languages like JavaScript or PHP, this step may be a no-op
+
+      # Step 4: Perform the CodeQL analysis to detect vulnerabilities
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2  # Uses GitHub's CodeQL analysis action, version 2
+        # This step scans the code for security issues (e.g., SQL injection, XSS) and generates results visible in the PR or Security tab
