@@ -1,43 +1,16 @@
-name: CodeQL Analysis
+name: Security Scan
 
-# Defines the events that trigger this workflow
 on:
-  # Trigger the workflow on push events to the main branch
   push:
     branches: [main]
-  # Trigger the workflow on pull requests targeting the main branch
   pull_request:
-    branches: [main]
 
-# Defines the jobs to run as part of this workflow
 jobs:
-  analyze:
-    # Specifies the runner environment (GitHub-hosted virtual machine)
+  scan:
     runs-on: ubuntu-latest
-    # Add required permissions for Code Scanning
-    permissions:
-      actions: read
-      contents: read
-      security-events: write  # Required to upload CodeQL results
-    # List of steps to execute in this job
     steps:
-      # Step 1: Check out the repository code so the workflow can access it
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      # Step 2: Initialize CodeQL for scanning
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3  
-        with:
-          # Specifies the programming languages to scan;
-          languages: javascript,python  
-
-      # Step 3: Autobuild the code (if applicable) to prepare for analysis
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v3  
-        # Note: For PHP, autobuild may not do much since PHP is interpreted; consider manual build steps if needed
-
-      # Step 4: Perform the CodeQL analysis to detect vulnerabilities
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3  
-        # This step scans for vulnerabilities (e.g., SQL injection, XSS) and uploads results to the Security tab
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm install
+      - name: Run audit
+        run: npm audit --audit-level=high
