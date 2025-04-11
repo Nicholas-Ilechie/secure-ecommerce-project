@@ -26,7 +26,7 @@ secure-ecommerce-platform/
 ├── database/              # SQL scripts, ERDs
 ├── docs/                  # Reports, diagrams, threat models
 ├── .gitignore             # Excludes sensitive files
-├── .env.example           # Environment variable template
+├── .env                   # Environment variable template
 └── README.md              # Project overview
 ```
 
